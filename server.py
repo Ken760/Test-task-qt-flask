@@ -11,18 +11,17 @@ app = Flask(__name__)
 def post_data():
     data = request.get_json()
     text = data['text']
-    # date = data['date']
-    # time = date['time']
 
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
 
-    c.execute("INSERT INTO data (text) VALUES (?)", (text))
+    c.execute("INSERT INTO data (text) VALUES (?)", (text,))
 
     conn.commit()
     conn.close()
 
     return jsonify(success=True)
+
 
 # GET endpoint
 @app.route('/get_data', methods=['GET'])
@@ -40,8 +39,7 @@ def get_data():
         id = row[0]
         text = row[1]
         date = row[2]
-        time = row[3]
-        data.append({'id': id, 'text': text, 'date': date, 'time': time})
+        data.append({'id': id, 'text': text, 'date': date})
 
     return jsonify(data=data)
 
