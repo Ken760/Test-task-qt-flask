@@ -17,6 +17,7 @@ class MyWidget(QWidget):
         self.num_clicks = 0
 
         self.line_edit = QListView()
+        self.line_edit.insertItem(1, 'asdgsdga')
         self.btn_send = QPushButton('Send Data')
         self.btn_send.clicked.connect(self.send_data)
 

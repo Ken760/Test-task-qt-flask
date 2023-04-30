@@ -1,18 +1,39 @@
 from PyQt6 import uic
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 from PyQt6.QtSql import *
 import requests
 from PyQt6.uic.properties import QtWidgets
+from mainForm import Ui_MainWindow
 
-Form, Window = uic.loadUiType("MainForm.ui")
 
+class testApp(QMainWindow, Ui_MainWindow):
+    def __init__(self, url):
+        super().__init__()
+        self.setupUi(self)
 
+        self.url = url
+
+        self.postButton.clicked.connect(self.send_data)
+
+    def send_data(self):
+        url = 'http://localhost:5000/post_data'
+
+        data = {
+            'text': self.lineEdit.text(),
+        }
+
+        response = requests.post(url, json=data)
+
+        if response.status_code == 200:
+            QMessageBox.information(self, 'Success', 'Data sent successfully.')
+        else:
+            QMessageBox.warning(self, 'Error', f'Error: {response.status_code}')
 
 app = QApplication([])
-window = Window()
-form = Form()
-form.setupUi(window)
+window = testApp('http://localhost:5000/')
+# form = Form()
+# form.setupUi(window)
 window.show()
 app.exec()
 
