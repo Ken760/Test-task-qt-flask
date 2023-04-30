@@ -1,6 +1,6 @@
 from PyQt6 import uic
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QStandardItem
+from PyQt6.QtGui import QStandardItem, QStandardItemModel
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 from PyQt6.QtSql import *
 import requests
@@ -33,9 +33,10 @@ class testApp(QMainWindow, Ui_MainWindow):
             QMessageBox.warning(self, 'Error', f'Error: {response.status_code}')
 
     def get_data(self):
-        for i in range(1, 5):
-            self.listView.addItem(str(i))
-
+        url = 'http://localhost:5000/get_data'
+        response = requests.get(url)
+        data = response.json()
+        print(data)
 
 
 
