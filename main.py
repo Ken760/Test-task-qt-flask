@@ -1,5 +1,6 @@
 from PyQt6 import uic
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QStandardItem
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
 from PyQt6.QtSql import *
 import requests
@@ -15,6 +16,7 @@ class testApp(QMainWindow, Ui_MainWindow):
         self.url = url
 
         self.postButton.clicked.connect(self.send_data)
+        self.getButton.clicked.connect(self.get_data)
 
     def send_data(self):
         url = 'http://localhost:5000/post_data'
@@ -26,9 +28,16 @@ class testApp(QMainWindow, Ui_MainWindow):
         response = requests.post(url, json=data)
 
         if response.status_code == 200:
-            QMessageBox.information(self, 'Success', 'Data sent successfully.')
+            QMessageBox.information(self, 'Success', 'Данные отправлены.')
         else:
             QMessageBox.warning(self, 'Error', f'Error: {response.status_code}')
+
+    def get_data(self):
+        for i in range(1, 5):
+            self.listView.addItem(str(i))
+
+
+
 
 app = QApplication([])
 window = testApp('http://localhost:5000/')
