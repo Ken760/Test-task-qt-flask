@@ -36,7 +36,8 @@ class testApp(QMainWindow, Ui_MainWindow):
         url = 'http://localhost:5000/get_data'
         response = requests.get(url)
         data = response.json()
-        print(data)
+
+        self.textEdit.append(str(data))
 
 
 
